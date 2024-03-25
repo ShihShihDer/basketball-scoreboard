@@ -1,0 +1,6 @@
+<div class="timer">
+    <h1>Game Clock: {{ gameClock | date:'mm:ss' }}</h1>
+    <h1>Shot Clock: {{ shotClock }}</h1>
+    <button (click)="resetShotClock()">Reset Shot Clock</button>
+  </div>
+  

@@ -1,13 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription, interval } from 'rxjs';
+import { CommonModule, DatePipe } from '@angular/common';
 
 
 @Component({
   selector: 'app-timer',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './timer.component.html',
-  styleUrl: './timer.component.scss'
+  styleUrl: './timer.component.scss',
+  providers: [DatePipe]
 })
 export class TimerComponent implements OnInit, OnDestroy {
   shotClock: number = 24;

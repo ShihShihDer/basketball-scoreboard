@@ -1,51 +1,72 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription, interval } from 'rxjs';
 import { CommonModule, DatePipe } from '@angular/common';
-
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription, timer } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-timer',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './timer.component.html',
-  styleUrl: './timer.component.scss',
-  providers: [DatePipe]
+  styleUrls: ['./timer.component.scss'],
+  standalone: true,
+  providers: [DatePipe],
+  imports: [CommonModule, FormsModule],
 })
 export class TimerComponent implements OnInit, OnDestroy {
-  shotClock: number = 24;
-  gameClock: number = 10 * 60; // 假设一节比赛时间为10分钟
-  shotClockSubscription!: Subscription;
-  gameClockSubscription!: Subscription;
+  countDownLanguage = 'hk';
+  shotClockRangeValue = 0.00;
+  shotClock: number = 0.00;
+  private shotClockSubscription?: Subscription;
+  private audioMap: { [key: number]: HTMLAudioElement } = {};
+
+  constructor() {
+    for (let i = 1; i <= 10; i++) {
+      this.audioMap[i] = new Audio(`./assets/sounds/${this.countDownLanguage}/${i}.mp3`);
+    }
+    this.audioMap[0.01] = new Audio(`./assets/sounds/0.mp3`);
+  }
 
   ngOnInit() {
     this.startShotClock();
-    this.startGameClock();
   }
 
   startShotClock() {
-    this.shotClockSubscription = interval(1000).subscribe(() => {
-      if (this.shotClock > 0) {
-        this.shotClock--;
+    this.shotClockSubscription = timer(0, 10).subscribe(() => {
+      if (this.shotClock > 0.00) {
+        this.shotClock = parseFloat((this.shotClock - 0.01).toFixed(2));
+        this.playSoundForSecond(this.shotClock);
+      }
+      else {
+        this.shotClockSubscription?.unsubscribe();
       }
     });
   }
 
-  resetShotClock() {
+  customShotClock(time: number) {
     this.shotClockSubscription?.unsubscribe();
-    this.shotClock = 24; // 或者14秒，根据实际需要重置
+    this.shotClock = parseFloat((this.shotClock + 1).toFixed(2));
+  }
+
+  resetShotClock(time: number) {
+    this.shotClockSubscription?.unsubscribe();
+    this.shotClock = parseFloat(time.toFixed(2));
     this.startShotClock();
   }
 
-  startGameClock() {
-    this.gameClockSubscription = interval(1000).subscribe(() => {
-      if (this.gameClock > 0) {
-        this.gameClock--;
-      }
-    });
+
+
+  pauseShotClock() {
+    this.shotClockSubscription?.unsubscribe();
   }
+
+
 
   ngOnDestroy() {
     this.shotClockSubscription?.unsubscribe();
-    this.gameClockSubscription?.unsubscribe();
+  }
+
+  private playSoundForSecond(second: number) {
+    if (second == 10 || second == 9 || second == 8 || second == 7 || second == 6 || second == 5 || second == 4 || second == 3 || second == 2 || second == 1 || second == 0.01) {
+      this.audioMap[second].play();
+    }
   }
 }

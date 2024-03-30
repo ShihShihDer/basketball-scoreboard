@@ -1,6 +1,28 @@
-<div class="timer">
+<!-- <div class="timer">
     <h1>Game Clock: {{ gameClock | date:'mm:ss' }}</h1>
     <h1>Shot Clock: {{ shotClock }}</h1>
     <button (click)="resetShotClock()">Reset Shot Clock</button>
   </div>
-  
+   -->
+
+<div class="timer">
+  <div class="shot-clock">
+    <select name="countDownLanguage" id="countDownLanguage" [(ngModel)]="countDownLanguage">
+      <option value="ch">中文</option>
+      <option value="hk" selected>客語</option>
+      <option value="en">English</option>
+    </select>
+    <h1>{{shotClock}}</h1>
+    <button (click)="resetShotClock(24)">24</button>
+    <button (click)="resetShotClock(14)">14</button>
+    <button (click)="resetShotClock(shotClockRangeValue)">{{shotClockRangeValue}}</button>
+    <br>
+    <button (click)="pauseShotClock()">Pause</button>
+    <button (click)="startShotClock()">Start</button>
+    <br>
+    <button (click)="resetShotClock(0)">Reset</button>
+    <br>
+    <br>
+    <input type="range" id="shotClockRange" min="0" max="24" value="0" step="0.01" [(ngModel)]="shotClockRangeValue" />
+  </div>
+</div>

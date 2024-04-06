@@ -1,10 +1,14 @@
 <div class="scoreboard">
-    <div class="team" *ngFor="let team of teams; let i = index">
-        <h2>{{ team.name }} {{ team.score }}</h2>
-        <button (click)="changeScore(i, 1)">+1</button>
-        <button (click)="changeScore(i, 2)">+2</button>
-        <button (click)="changeScore(i, 3)">+3</button>
-        <button (click)="changeScore(i, -1)" [disabled]="team.score <= 0">-1</button>
+    <div class="team {{ team.name }}" *ngFor="let team of teams; let i = index">
+        <h2>{{ team.score }}</h2>
+        <div class="score-buttons">   
+            <button (click)="changeScore(i, 1)">+1</button>
+            <button (click)="changeScore(i, 2)">+2</button>
+            <button (click)="changeScore(i, 3)">+3</button>
+            <button (click)="changeScore(i, -1)" [disabled]="team.score <= 0">-1</button>
+        </div>
     </div>
-    <button (click)="resetScore()">Reset Scores</button>
+</div>
+<div class="reset-score">
+    <button class="reset" (click)="resetScore()">Reset Scores</button>
 </div>

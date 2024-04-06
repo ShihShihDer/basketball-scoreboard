@@ -2,6 +2,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription, timer } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { PadNumberPipe } from '../uitl/pad-number.pipe';
 
 @Component({
   selector: 'app-timer',
@@ -9,27 +10,36 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./timer.component.scss'],
   standalone: true,
   providers: [DatePipe],
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PadNumberPipe]
 })
 export class TimerComponent implements OnInit, OnDestroy {
-  countDownLanguage = 'hk';
+  countDownLanguage = 'ch';
   shotClockRangeValue = 0.00;
   shotClock: number = 0.00;
   private shotClockSubscription?: Subscription;
   private audioMap: { [key: number]: HTMLAudioElement } = {};
 
   constructor() {
+    this.loadAudioFiles();
+  }
+
+  ngOnInit() {
+    this.loadAudioFiles
+    this.startShotClock();
+  }
+
+  loadAudioFiles() {
+    this.audioMap = {}; 
     for (let i = 1; i <= 10; i++) {
       this.audioMap[i] = new Audio(`./assets/sounds/${this.countDownLanguage}/${i}.mp3`);
     }
     this.audioMap[0.01] = new Audio(`./assets/sounds/0.mp3`);
   }
 
-  ngOnInit() {
-    this.startShotClock();
-  }
-
   startShotClock() {
+    if (this.shotClockSubscription) {
+      this.shotClockSubscription.unsubscribe();
+    }
     this.shotClockSubscription = timer(0, 10).subscribe(() => {
       if (this.shotClock > 0.00) {
         this.shotClock = parseFloat((this.shotClock - 0.01).toFixed(2));
@@ -39,6 +49,10 @@ export class TimerComponent implements OnInit, OnDestroy {
         this.shotClockSubscription?.unsubscribe();
       }
     });
+  }
+
+  onLanguageChange() {
+    this.loadAudioFiles(); 
   }
 
   customShotClock(time: number) {

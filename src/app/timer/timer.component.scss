@@ -1,0 +1,164 @@
+@font-face {
+    font-family: 'Kode Mono';
+    src: url('/assets/fonts/KodeMono-VariableFont_wght.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+
+.timer {
+    display: flex;
+    flex-direction: column; // 垂直布局
+    justify-content: space-between; // 中心对齐
+    margin: 0 1vw; // 左右外边距
+
+    .shot-clock {
+        display: flex;
+        justify-content: space-between; // 水平布局，并平均分布空间
+        width: 100%; // 占满可用宽度
+
+        button {
+            background: #BBBBBB; // 透明背景
+            border: none; // 无边框
+            color: white; // 文字颜色
+            font-size: 15vw; // 字体大小
+            border-radius: 2vw;
+            width: 20vw; // 按钮宽度
+
+            // 使用伪元素插入图标
+            &:before {
+                display: block; // 显示为块元素
+                margin: auto; // 自动居中
+            }
+        }
+
+        // 特殊样式的倒计时数字
+        h1 {
+            width: 49vw; // 数字宽度
+            background: #000000; // 背景颜色
+            color: #ff0000;
+            padding: 2vw;
+            border-radius: 2vw;
+            font-size: 15vw; // 大号字体
+            font-weight: 1;
+            font-family: "Kode Mono", monospace, 'Digital', sans-serif; // 数字字体
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 1vw; // 数字和按钮之间的间距
+        }
+    }
+
+    .control-buttons {
+        display: flex; // 设置为flex布局
+        justify-content: space-between; // 水平分布空间
+        width: 100%; // 占满可用宽度
+        gap: 3vw; // 设置按钮之间的间距
+        margin-top: 1vw; // 顶部外边距
+
+        button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%; // 按钮宽度
+            height: 20vw; // 按钮高度
+            background: #BBBBBB; // 背景颜色
+            color: white;
+            border: none;
+            border-radius: 2vw;
+            cursor: pointer;
+            font-size: 5vw; // 字体大小
+            position: relative; // 为伪元素定位
+
+            &.start::before {
+                content: '';
+                display: block;
+                margin: auto;
+                width: 0;
+                height: 0;
+                border-left: 8vw solid white;
+                border-top: 4vw solid transparent;
+                border-bottom: 4vw solid transparent;
+            }
+
+            &.pause::before {
+                content: '';
+                position: absolute;
+                width: 5vw;
+                height: 8vw;
+                background-color: transparent;
+                border-left: 3vw solid white;
+                border-right: 3vw solid white;
+                transform: translateX(-50%);
+                left: 50%;
+            }
+
+            &.reset::before {
+                content: '';
+                display: block;
+                width: 8vw;
+                height: 8vw;
+                background-color: rgb(255, 0, 0);
+                margin: auto;
+            }
+        }
+    }
+
+    .range-slider {
+        display: flex; // 设置为flex布局
+        justify-content: space-between; // 水平分布空间
+        width: 100%; // 占满可用宽度
+        margin: 2vw 0; // 顶部外边距
+
+        button {
+            background: #BBBBBB;
+            border: none; // 无边框
+            color: white; // 文字颜色
+            font-size: 5vw; // 字体大小
+            border-radius: 2vw;
+            width: 20vw; // 按钮宽度
+        }
+
+        input[type="range"] {
+            margin: 3vw 2vw 3vw 0; // 上下外边距，左右自动
+            appearance: none; // 移除默认样式
+            width: 75vw;
+            height: 1.5vw; // 滑块轨道的高度
+            border-radius: 2vw; // 轨道的圆角
+            background: #ddd; // 轨道的背景颜色
+            outline: none; // 移除轮廓
+            opacity: 0.8; // 使滑块稍微透明
+            transition: opacity .2s; // 过渡效果
+
+            // 针对WebKit浏览器的滑块拇指部分
+            &::-webkit-slider-thumb {
+                appearance: none;
+                appearance: none;
+                width: 5vw; // 滑块的宽度
+                height: 5vw; // 滑块的高度
+                border-radius: 50%; // 滑块的形状
+                background: #000000; // 滑块的背景颜色
+                cursor: pointer; // 鼠标悬停时的光标形状
+            }
+
+            // 针对Firefox的滑块拇指部分
+            &::-moz-range-thumb {
+                width: 5vw; // 滑块的宽度
+                height: 5vw; // 滑块的高度
+                border-radius: 50%; // 滑块的形状
+                background: #000000; // 滑块的背景颜色
+                cursor: pointer; // 鼠标悬停时的光标形状
+            }
+        }
+    }
+
+    // 语言选择器样式
+    select {
+        background: #7f8c8d;
+        color: white;
+        border: none;
+        padding: 2vw;
+        border-radius: 2vw;
+        text-align-last: center;
+    }
+}

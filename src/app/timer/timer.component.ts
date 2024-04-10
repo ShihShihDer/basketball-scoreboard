@@ -22,7 +22,7 @@ export class TimerComponent implements OnDestroy {
   hkAudioFiles: HTMLAudioElement[] = [new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio()];
   enAudioFiles: HTMLAudioElement[] = [new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio()];
   currentAudioFiles: HTMLAudioElement[] = [new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio()];
-  audioTimeout: HTMLAudioElement = new Audio();
+  audioBuzzer: HTMLAudioElement = new Audio();
   shotClockRangeValue = 0.00;
   shotClock: number = 0.00;
   private shotClockSubscription?: Subscription;
@@ -40,7 +40,9 @@ export class TimerComponent implements OnDestroy {
       this.hkAudioFiles[i] = new Audio(`./assets/sounds/hk/${i}.mp3`);
       this.enAudioFiles[i] = new Audio(`./assets/sounds/en/${i}.mp3`);
     }
+    this.audioBuzzer = new Audio('./assets/sounds/buzzer.mp3');
     this.currentAudioFiles = this.chAudioFiles;
+    this.currentLanguage = this.countDownLanguage[0].value;
   }
 
   startShotClock() {
@@ -95,5 +97,13 @@ export class TimerComponent implements OnDestroy {
     if (second == 10 || second == 9 || second == 8 || second == 7 || second == 6 || second == 5 || second == 4 || second == 3 || second == 2 || second == 1 || second == 0) {
       this.currentAudioFiles[second].play();
     }
+  }
+  
+  playBuzzer() {
+    this.audioBuzzer.play();
+  }
+
+  reloadAudio(){
+    this.loadAudioFiles();
   }
 }

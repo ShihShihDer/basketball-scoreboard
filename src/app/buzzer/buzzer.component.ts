@@ -13,6 +13,7 @@ export class BuzzerComponent {
 
   ngOnInit() {
     this.audio = new Audio('./assets/sounds/buzzer.mp3');
+    this.audio = new Audio('./assets/sounds/buzzer.mp3');
   }
 
   playBuzzer() {

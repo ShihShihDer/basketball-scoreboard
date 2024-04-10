@@ -36,7 +36,7 @@
 
         // 特殊样式的倒计时数字
         h1 {
-            width: 49vw; // 数字宽度
+            // width: 49vw; // 数字宽度
             background: #000000; // 背景颜色
             color: #ff0000;
             border-radius: 2vw;
@@ -123,7 +123,7 @@
         input[type="range"] {
             margin: 3vw 2vw 3vw 0; // 上下外边距，左右自动
             appearance: none; // 移除默认样式
-            width: 75vw;
+            width: 60vw;
             height: 1.5vw; // 滑块轨道的高度
             border-radius: 2vw; // 轨道的圆角
             background: #ddd; // 轨道的背景颜色
@@ -161,6 +161,7 @@
         padding: 2vw;
         border-radius: 2vw;
         text-align-last: center;
+        font-size: 5vw;
     }
 }
 

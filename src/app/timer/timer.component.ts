@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Subscription, timer } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { PadNumberPipe } from '../uitl/pad-number.pipe';
@@ -12,7 +12,7 @@ import { PadNumberPipe } from '../uitl/pad-number.pipe';
   providers: [DatePipe],
   imports: [CommonModule, FormsModule, PadNumberPipe]
 })
-export class TimerComponent implements OnDestroy, OnInit {
+export class TimerComponent implements OnDestroy {
   countDownLanguage = [
     { value: 'ch', viewValue: '中文' },
     { value: 'hk', viewValue: '客語' },
@@ -31,16 +31,12 @@ export class TimerComponent implements OnDestroy, OnInit {
   currentLanguage = this.countDownLanguage[0].value;
 
 
-  constructor() {
-    console.log("constructor");
-    this.loadAudioFiles();
-  }
+
 
   ngOnInit() {
 
     console.log("ngOnInit");
-
-    // this.loadAudioFiles;
+    this.loadAudioFiles();
     this.startShotClock();
 
     console.log("countDownLanguage");
@@ -51,18 +47,17 @@ export class TimerComponent implements OnDestroy, OnInit {
     console.log(this.chAudioFiles);
     console.log(this.hkAudioFiles);
     console.log(this.enAudioFiles);
-    // console.log(this.audioMap['ch'][5]);
-
+    this.loadAudioFiles();
   }
 
   loadAudioFiles() {
-    
-      for (let i = 1; i <= 10; i++) {
-        console.log(i+'-ch.mp3')
-        this.chAudioFiles[i] = new Audio(`./assets/sounds/ch/${i}.mp3`);
-        this.hkAudioFiles[i] = new Audio(`./assets/sounds/hk/${i}.mp3`);
-        this.enAudioFiles[i] = new Audio(`./assets/sounds/en/${i}.mp3`);
-      }
+
+    for (let i = 1; i <= 10; i++) {
+      console.log(i + '-ch.mp3')
+      this.chAudioFiles[i] = new Audio(`./assets/sounds/ch/${i}.mp3`);
+      this.hkAudioFiles[i] = new Audio(`./assets/sounds/hk/${i}.mp3`);
+      this.enAudioFiles[i] = new Audio(`./assets/sounds/en/${i}.mp3`);
+    }
     this.audioTimeout = new Audio(`./assets/sounds/0.mp3`);
     this.currentAudioFiles = this.chAudioFiles;
   }
@@ -126,9 +121,9 @@ export class TimerComponent implements OnDestroy, OnInit {
   }
 
   private playSoundForSecond(second: number) {
-    if (second == 10 || second == 9 || second == 8 || second == 7 || second == 6 || second == 5 || second == 4 || second == 3 || second == 2 || second == 1 ) {
+    if (second == 10 || second == 9 || second == 8 || second == 7 || second == 6 || second == 5 || second == 4 || second == 3 || second == 2 || second == 1) {
       this.currentAudioFiles[second].play();
-    }if (second == 0.01) {
+    } if (second == 0.01) {
       this.audioTimeout.play();
     }
   }

@@ -9,9 +9,14 @@ import { CommonModule } from '@angular/common';
   styleUrl: './buzzer.component.scss'
 })
 export class BuzzerComponent {
+  audio: HTMLAudioElement = new Audio();
+
+  ngOnInit() {
+    this.audio = new Audio('./assets/sounds/buzzer.mp3');
+  }
+
   playBuzzer() {
-    const audio = new Audio('./assets/sounds/buzzer.mp3');
-    audio.play();
+    this.audio.play();
   }
 
 }

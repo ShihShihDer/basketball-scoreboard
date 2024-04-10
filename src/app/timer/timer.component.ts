@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription, timer } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { PadNumberPipe } from '../uitl/pad-number.pipe';
@@ -12,28 +12,59 @@ import { PadNumberPipe } from '../uitl/pad-number.pipe';
   providers: [DatePipe],
   imports: [CommonModule, FormsModule, PadNumberPipe]
 })
-export class TimerComponent implements OnInit, OnDestroy {
-  countDownLanguage = 'ch';
+export class TimerComponent implements OnDestroy, OnInit {
+  countDownLanguage = [
+    { value: 'ch', viewValue: '中文' },
+    { value: 'hk', viewValue: '客語' },
+    { value: 'en', viewValue: 'English' }
+  ];
+
+  chAudioFiles: HTMLAudioElement[] = [new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio()];
+  hkAudioFiles: HTMLAudioElement[] = [new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio()];
+  enAudioFiles: HTMLAudioElement[] = [new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio()];
+  currentAudioFiles: HTMLAudioElement[] = [new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio()];
+  audioTimeout: HTMLAudioElement = new Audio();
+
   shotClockRangeValue = 0.00;
   shotClock: number = 0.00;
   private shotClockSubscription?: Subscription;
-  private audioMap: { [key: number]: HTMLAudioElement } = {};
+  currentLanguage = this.countDownLanguage[0].value;
+
 
   constructor() {
+    console.log("constructor");
     this.loadAudioFiles();
   }
 
   ngOnInit() {
-    this.loadAudioFiles
+
+    console.log("ngOnInit");
+
+    // this.loadAudioFiles;
     this.startShotClock();
+
+    console.log("countDownLanguage");
+    console.log(this.countDownLanguage);
+    console.log('currentLanguage');
+    console.log(this.currentLanguage)
+    console.log('audioMap');
+    console.log(this.chAudioFiles);
+    console.log(this.hkAudioFiles);
+    console.log(this.enAudioFiles);
+    // console.log(this.audioMap['ch'][5]);
+
   }
 
   loadAudioFiles() {
-    this.audioMap = {}; 
-    for (let i = 1; i <= 10; i++) {
-      this.audioMap[i] = new Audio(`./assets/sounds/${this.countDownLanguage}/${i}.mp3`);
-    }
-    this.audioMap[0.01] = new Audio(`./assets/sounds/0.mp3`);
+    
+      for (let i = 1; i <= 10; i++) {
+        console.log(i+'-ch.mp3')
+        this.chAudioFiles[i] = new Audio(`./assets/sounds/ch/${i}.mp3`);
+        this.hkAudioFiles[i] = new Audio(`./assets/sounds/hk/${i}.mp3`);
+        this.enAudioFiles[i] = new Audio(`./assets/sounds/en/${i}.mp3`);
+      }
+    this.audioTimeout = new Audio(`./assets/sounds/0.mp3`);
+    this.currentAudioFiles = this.chAudioFiles;
   }
 
   startShotClock() {
@@ -52,13 +83,29 @@ export class TimerComponent implements OnInit, OnDestroy {
   }
 
   onLanguageChange() {
-    this.loadAudioFiles(); 
+    console.log('onLanguageChange');
+    console.log(this.currentLanguage);
+    switch (this.currentLanguage) {
+
+      case 'ch':
+        console.log('ch');
+        this.currentAudioFiles = this.chAudioFiles;
+        break;
+      case 'hk':
+        console.log('hk');
+        this.currentAudioFiles = this.hkAudioFiles;
+        break;
+      case 'en':
+        console.log('en');
+        this.currentAudioFiles = this.enAudioFiles;
+        break;
+    }
   }
 
-  customShotClock(time: number) {
-    this.shotClockSubscription?.unsubscribe();
-    this.shotClock = parseFloat((this.shotClock + 1).toFixed(2));
-  }
+  // customShotClock(time: number) {
+  //   this.shotClockSubscription?.unsubscribe();
+  //   this.shotClock = parseFloat((this.shotClock + 1).toFixed(2));
+  // }
 
   resetShotClock(time: number) {
     this.shotClockSubscription?.unsubscribe();
@@ -79,8 +126,10 @@ export class TimerComponent implements OnInit, OnDestroy {
   }
 
   private playSoundForSecond(second: number) {
-    if (second == 10 || second == 9 || second == 8 || second == 7 || second == 6 || second == 5 || second == 4 || second == 3 || second == 2 || second == 1 || second == 0.01) {
-      this.audioMap[second].play();
+    if (second == 10 || second == 9 || second == 8 || second == 7 || second == 6 || second == 5 || second == 4 || second == 3 || second == 2 || second == 1 ) {
+      this.currentAudioFiles[second].play();
+    }if (second == 0.01) {
+      this.audioTimeout.play();
     }
   }
 }

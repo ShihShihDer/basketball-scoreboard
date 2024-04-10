@@ -5,7 +5,7 @@
     width: 100%; // 让记分板宽度充满容器
 
     .team {
-        width: 49%; // 让主队和客队宽度相等
+        width: 48%; // 让主队和客队宽度相等
         background-color: #ff6b6b; // 默认背景颜色，可以通过类名更改
         color: white;
         border-radius: 2vw;
@@ -22,7 +22,7 @@
         }
 
         h2 {
-            font-size: 25vw; // 得分的字体大小
+            font-size: 20vw; // 得分的字体大小
             margin: 0; // 分数和按钮之间的空间
         }
 
@@ -34,7 +34,7 @@
                 flex: 1;
                 margin: 0; // 按钮之间的间隔
                 padding: 0; // 垂直内边距
-                font-size: 10vw; // 按钮内文字大小
+                font-size: 8vw; // 按钮字体大小
                 background: #b6b6b6; // 按钮背景颜色
                 color: #ffffff; // 按钮文字颜色
                 border: 0; // 按钮边框

@@ -9,7 +9,7 @@ export class PadNumberPipe implements PipeTransform {
   transform(value: number): string {
     let [integer, decimal] = value.toString().split('.');
     integer = integer.padStart(2, '0');
-    decimal = (decimal || '00').padEnd(2, '0');
+    decimal = (decimal || '0').padEnd(1, '0');
     return `${integer}.${decimal}`;
   }
 }

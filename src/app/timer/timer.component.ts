@@ -23,8 +23,8 @@ export class TimerComponent implements OnDestroy {
   enAudioFiles: HTMLAudioElement[] = [new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio()];
   currentAudioFiles: HTMLAudioElement[] = [new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio(), new Audio()];
   audioBuzzer: HTMLAudioElement = new Audio();
-  shotClockRangeValue = 0.00;
-  shotClock: number = 0.00;
+  shotClockRangeValue = 0.0;
+  shotClock: number = 0.0;
   private shotClockSubscription?: Subscription;
   currentLanguage = this.countDownLanguage[0].value;
 
@@ -49,9 +49,9 @@ export class TimerComponent implements OnDestroy {
     if (this.shotClockSubscription) {
       this.shotClockSubscription.unsubscribe();
     }
-    this.shotClockSubscription = timer(0, 10).subscribe(() => {
-      if (this.shotClock > 0.00) {
-        this.shotClock = parseFloat((this.shotClock - 0.01).toFixed(2));
+    this.shotClockSubscription = timer(0, 100).subscribe(() => {
+      if (this.shotClock > 0.0) {
+        this.shotClock = parseFloat((this.shotClock - 0.1).toFixed(1));
         this.playSoundForSecond(this.shotClock);
       }
       else {
@@ -81,7 +81,7 @@ export class TimerComponent implements OnDestroy {
 
   resetShotClock(time: number) {
     this.shotClockSubscription?.unsubscribe();
-    this.shotClock = parseFloat(time.toFixed(2));
+    this.shotClock = parseFloat(time.toFixed(1));
     this.startShotClock();
   }
 
